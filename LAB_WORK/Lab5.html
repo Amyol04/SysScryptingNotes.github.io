@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 05 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 05</h1>
+<h2>User Accounts, AWK, SED</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab05
+cd lab05</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: User Account Script</h2>
+
+<pre><code>#!/bin/bash
+
+# Check if script is run as root
+if [ "$EUID" -ne 0 ]; then
+    echo "Run as root (use sudo)"
+    exit 1
+fi
+
+# Check if username provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 username"
+    exit 1
+fi
+
+username=$1
+
+# Create user
+echo "Creating user: $username"
+useradd "$username"
+
+# Show users
+echo "User list after creation:"
+cut -d: -f1 /etc/passwd
+
+# Wait 10 seconds
+sleep 10
+
+# Delete user
+echo "Deleting user: $username"
+userdel "$username"
+
+# Show users again
+echo "User list after deletion:"
+cut -d: -f1 /etc/passwd
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>$EUID</code> → Checks root privileges</li>
+<li><code>/etc/passwd</code> → Stores user info</li>
+<li><code>cut -d: -f1</code> → Extracts usernames</li>
+</ul>
+
+<!-- ========================= -->
+<h2>AWK Basics</h2>
+
+<pre><code>ls -l | awk '{print $3 $5 $9}'
+ls -l | awk '{print $1 " " $5 " " $3}'</code></pre>
+
+<p><b>Difference:</b></p>
+<ul>
+<li>First → No spacing between fields</li>
+<li>Second → Proper formatting using spaces</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 2: Username & UID with AWK</h2>
+
+<pre><code>#!/bin/bash
+
+# Extract username and UID
+awk -F: '{print $1 " " $3}' /etc/passwd > users.txt
+
+# Display file
+cat users.txt
+
+# Exclude system users (UID < 1000 typically)
+awk -F: '$3 >= 1000 {print $1 " " $3}' /etc/passwd
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>-F:</code> → Sets field separator</li>
+<li><code>$1</code> → Username</li>
+<li><code>$3</code> → UID</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 3: File Size Calculation (AWK)</h2>
+
+<pre><code>#!/bin/bash
+
+# Initialize totals
+awk '
+BEGIN {
+    totalBytes=0;
+    totalBlocks=0;
+    print "File Name: Byte size Block size"
+}
+{
+    if ($1 == "total") next;
+
+    bytes=$5;
+    blocks=int(($5+4095)/4096); # approximate block size
+
+    totalBytes += bytes;
+    totalBlocks += blocks;
+
+    print $9 " " bytes " bytes " blocks " blocks";
+}
+END {
+    print "Total bytes " totalBytes " bytes";
+    print "Total blocks " totalBlocks " blocks";
+}' <(ls -l)
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>BEGIN</code> → Runs before processing</li>
+<li><code>END</code> → Runs after processing</li>
+<li><code>int()</code> → Integer conversion</li>
+</ul>
+
+<!-- ========================= -->
+<h2>SED Basics</h2>
+
+<pre><code>sed -e 's/coat/bag/g' fileCon.txt</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>s</code> → Substitute</li>
+<li><code>g</code> → Replace all occurrences</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 4: Change Default Shell</h2>
+
+<pre><code>#!/bin/bash
+
+# Replace /bin/bash with /bin/sh
+sed 's#/bin/bash#/bin/sh#g' passwd_copy.txt > updated_passwd.txt
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>#</code> used instead of / to avoid conflict</li>
+<li>Always test on copy, NOT real /etc/passwd</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 5: SED Text Processing</h2>
+
+<h3>content.txt</h3>
+<pre><code>Hello Jerry how are you? Jerry, I heard you like scripting.
+Jane will be around tomorrow to look after you.
+I hope you Jerry will keep off scripting and be nice to her.
+What about Kate? Tell me the story.
+I would be delighted to see you progress.</code></pre>
+
+<h3>Script</h3>
+<pre><code>#!/bin/bash
+
+# Replace second occurrence of Jerry with Jones
+sed '0,/Jerry/s//Jones/2' content.txt > temp.txt
+
+# Delete last two lines
+sed '$d' temp.txt | sed '$d' > final.txt
+
+# Display result
+cat final.txt
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>0,/pattern/</code> → Limits range</li>
+<li><code>$d</code> → Deletes last line</li>
+<li>Piping allows multiple operations</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>AWK:</b> $1, $2, $3 = fields</li>
+<li><b>-F:</b> changes delimiter (VERY important)</li>
+<li><b>BEGIN / END:</b> setup & summary blocks</li>
+<li><b>SED:</b> s/old/new/g for replacement</li>
+<li><b>$d:</b> delete last line</li>
+<li><b>User scripts:</b> must check root using $EUID</li>
+<li>Always test dangerous commands on copies (especially passwd!)</li>
+</ul>
+
+</body>
+</html>

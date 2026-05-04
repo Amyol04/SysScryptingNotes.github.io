@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 04 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 04</h1>
+<h2>Arrays, Control Flow, Functions</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab04
+cd lab04</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Array Filtering</h2>
+
+<pre><code>#!/bin/bash
+
+# Define array
+words=("watch" "sweet" "zebra" "want" "switch" "script" "honey" "manager" "money" "maker" "home")
+
+# Loop through array
+for word in "${words[@]}"
+do
+    # Check if word starts with 's' or 'm'
+    if [[ $word == s* || $word == m* ]]; then
+        echo "$word"
+    fi
+done
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>"${words[@]}"</code> → Access all elements</li>
+<li><code>s*</code> → Matches words starting with 's'</li>
+<li><code>||</code> → OR condition</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 2: File to Array + Replace Words</h2>
+
+<h3>content.txt</h3>
+<pre><code>Putting efforts
+Pays big time
+Successful people work hard
+Assessment is part of life</code></pre>
+
+<h3>Script</h3>
+<pre><code>#!/bin/bash
+
+# Read file into array
+mapfile -t lines &lt; content.txt
+
+# Loop through array
+for line in "${lines[@]}"
+do
+    # Replace words
+    line=${line//Successful/Distinction}
+    line=${line//Assessment/Exam}
+
+    # Output modified line
+    echo "$line"
+done
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>mapfile -t</code> → Reads file into array</li>
+<li><code>//</code> → Replace all occurrences</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 3: Loop with Condition</h2>
+
+<pre><code>#!/bin/bash
+
+count=0
+
+# Loop from 1 to 50
+for i in {1..50}
+do
+    # Skip multiples of 4
+    if (( i % 4 != 0 )); then
+        echo "$i"
+        ((count++))
+    fi
+done
+
+# Output total count
+echo "Numbers printed: $count"
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>%</code> → Modulus operator</li>
+<li><code>!= 0</code> → Not divisible</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 4: Divisible by 7 (No IF)</h2>
+
+<pre><code>#!/bin/bash
+
+while true
+do
+    read -p "Enter a number: " num
+
+    # Use modulo directly in loop condition
+    (( num % 7 == 0 )) && {
+        echo "Success! Number divisible by 7."
+        break
+    }
+
+    echo "Try again..."
+done
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li>No IF used</li>
+<li><code>&&</code> → Executes block if condition is true</li>
+<li><code>break</code> → Terminates loop</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 5: Function with Arithmetic Logic</h2>
+
+<pre><code>#!/bin/bash
+
+# Check arguments
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 num1 num2"
+    exit 1
+fi
+
+# Function definition
+calculate() {
+    local a=$1
+    local b=$2
+
+    # Check if first number is odd
+    if (( a % 2 != 0 )); then
+        echo "Addition result: $((a + b))"
+    else
+        echo "Multiplication result: $((a * b))"
+    fi
+}
+
+# Call function
+calculate $1 $2
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>function_name()</code> → Function definition</li>
+<li><code>local</code> → Limits variable scope</li>
+<li><code>$#</code> → Argument count check</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 6: Character Count Function</h2>
+
+<pre><code>#!/bin/bash
+
+# Function to count characters
+count_chars() {
+    local input="$1"
+    echo "Character count: ${#input}"
+}
+
+while true
+do
+    read -p "Enter text (q to quit): " text
+
+    # Exit condition
+    if [ "$text" == "q" ]; then
+        echo "Bye!"
+        break
+    fi
+
+    # Call function
+    count_chars "$text"
+done
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>${#variable}</code> → Length of string</li>
+<li>Loop continues until user enters <code>q</code></li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>Arrays:</b> "${array[@]}" is very important</li>
+<li><b>String replace:</b> ${var//old/new}</li>
+<li><b>Loops:</b> for, while frequently tested</li>
+<li><b>Functions:</b> must know syntax + parameters</li>
+<li><b>Modulo (%):</b> used for divisibility checks</li>
+<li><b>Argument validation:</b> always check $#</li>
+<li><b>No IF questions:</b> use && or ||</li>
+</ul>
+
+</body>
+</html>

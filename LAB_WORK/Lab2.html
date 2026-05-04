@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 2 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; }
+        code { display: block; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 2</h1>
+
+<!-- ========================= -->
+<h2>Exercise 1: Environment Variables Script</h2>
+
+<pre><code>#!/bin/bash
+
+# Print all environment variables to terminal
+echo "Printing environment variables:"
+printenv
+
+# Save environment variables to a file
+printenv > env_variables.txt
+
+# Count number of lines (entries) in file
+count=$(wc -l < env_variables.txt)
+
+# Print result
+echo "Number of environment variables: $count"
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>printenv</code> → Displays all environment variables</li>
+<li><code>></code> → Redirects output to a file</li>
+<li><code>wc -l</code> → Counts number of lines</li>
+<li><code>$( )</code> → Command substitution</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 2: Script Arguments</h2>
+
+<pre><code>#!/bin/bash
+
+# Print script name
+echo "Script name: $0"
+
+# Print number of arguments
+echo "Number of arguments: $#"
+
+# Print all arguments
+echo "Arguments passed: $@"
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>$0</code> → Script name</li>
+<li><code>$#</code> → Number of arguments</li>
+<li><code>$@</code> → All arguments</li>
+</ul>
+
+<p><b>Example Run:</b></p>
+<pre><code>./script.sh one two three</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 3: Script with Input Arguments</h2>
+
+<pre><code>#!/bin/bash
+
+# Assign input arguments
+folderName=$1
+fileName=$2
+content=$3
+
+# Create folder
+mkdir "$folderName"
+
+# Create file inside folder
+touch "$folderName/$fileName"
+
+# Write content into file
+echo "$content" > "$folderName/$fileName"
+
+# Display file content
+cat "$folderName/$fileName"
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li>Arguments accessed using <code>$1 $2 $3</code></li>
+<li><code>cat</code> → Displays file content</li>
+<li>Quotes prevent issues with spaces</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Scheduling with at</h2>
+
+<h3>Check service</h3>
+<pre><code>service atd status</code></pre>
+
+<h3>Install if needed</h3>
+<pre><code>sudo apt-get install at</code></pre>
+
+<h3>Start/Stop service</h3>
+<pre><code>service atd start
+service atd stop</code></pre>
+
+<h3>Schedule a job</h3>
+<pre><code>at 16:15
+cp -r $HOME/Documents $HOME/Main
+CTRL + D</code></pre>
+
+<h3>List jobs</h3>
+<pre><code>atq</code></pre>
+
+<h3>Remove job</h3>
+<pre><code>atrm JOB_NUMBER</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 4: Schedule Jobs with at</h2>
+
+<h3>Job 1: Create folder</h3>
+<pre><code>at 16:10
+mkdir testFolder
+CTRL + D</code></pre>
+
+<h3>Job 2: Create file</h3>
+<pre><code>at 16:12
+touch testFolder/file.txt
+CTRL + D</code></pre>
+
+<h3>Job 3: Rename folder</h3>
+<pre><code>at 16:14
+mv testFolder renamedFolder
+CTRL + D</code></pre>
+
+<p>Verify using:</p>
+<pre><code>atq
+ls</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 5: Schedule Script with at</h2>
+
+<pre><code>at 16:20
+./welcome.sh
+CTRL + D</code></pre>
+
+<!-- ========================= -->
+<h2>Scheduling with cron</h2>
+
+<h3>Check cron service</h3>
+<pre><code>service cron status</code></pre>
+
+<h3>Edit cron jobs</h3>
+<pre><code>crontab -e</code></pre>
+
+<h3>Format</h3>
+<pre><code>* * * * * command
+| | | | |
+| | | | ---- Day of week (0-6)
+| | | ------ Month (1-12)
+| | -------- Day of month (1-31)
+| ---------- Hour (0-23)
+------------ Minute (0-59)</code></pre>
+
+<h3>Example</h3>
+<pre><code>*/2 * * * * cp -r $HOME/Documents $HOME/croMain</code></pre>
+
+<h3>List cron jobs</h3>
+<pre><code>crontab -l</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 6: Daily Script with cron</h2>
+
+<pre><code>crontab -e</code></pre>
+
+<pre><code>*/2 * * * 2 ./script.sh</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li>Runs every 2 minutes on Tuesday</li>
+<li>Replace 2 with:
+<ul>
+<li>3 → Wednesday</li>
+<li>4 → Thursday</li>
+</ul>
+</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 7: Logging Script</h2>
+
+<h3>Script: log_script.sh</h3>
+<pre><code>#!/bin/bash
+
+# Append message with timestamp to log file
+echo "Log entry at $(date)" >> log.txt
+</code></pre>
+
+<h3>Schedule with cron</h3>
+<pre><code>crontab -e</code></pre>
+
+<pre><code>*/2 * * * * ./log_script.sh</code></pre>
+
+<p><b>Verify:</b></p>
+<pre><code>cat log.txt</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>date</code> → Gets current timestamp</li>
+<li><code>>></code> → Appends to file</li>
+<li>cron runs script automatically every 2 minutes</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>$0, $#, $@</b> are VERY common exam questions</li>
+<li><b>cron syntax</b> is frequently tested</li>
+<li><b>at = one-time jobs</b>, <b>cron = repeated jobs</b></li>
+<li>Always use full paths in cron jobs if scripts don’t run</li>
+<li>Remember permissions: <code>chmod +x script.sh</code></li>
+<li>Use comments in scripts for marks</li>
+</ul>
+
+</body>
+</html>

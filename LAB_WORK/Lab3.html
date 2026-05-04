@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 03 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 03</h1>
+<h2>Processes, Arithmetic Operators and Control Flow</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab03
+cd lab03</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Process Monitoring</h2>
+
+<h3>Start gedit</h3>
+<pre><code>gedit</code></pre>
+
+<h3>List all running processes</h3>
+<pre><code>ps -ef</code></pre>
+
+<h3>Find gedit process</h3>
+<pre><code>ps -ef | grep gedit</code></pre>
+
+<h3>Kill the process</h3>
+<pre><code>kill PID</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>ps -ef</code> → Shows all running processes</li>
+<li><code>grep</code> → Filters output</li>
+<li><code>kill</code> → Terminates process</li>
+<li><b>Result:</b> The gedit editor will close immediately</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 2: Root Processes Script</h2>
+
+<pre><code>#!/bin/bash
+
+# Output all processes owned by root into file
+ps -U root -u root u > root_processes.txt
+
+# Display file contents
+echo "All root processes:"
+cat root_processes.txt
+
+# Filter lines ending with ]
+echo "Processes ending with ]:"
+grep "]$" root_processes.txt
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>ps -U root -u root u</code> → Lists root user processes</li>
+<li><code>]$</code> → Regex for lines ending with ]</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 3: Arithmetic Script</h2>
+
+<pre><code>#!/bin/bash
+
+# Prompt user for input
+read -p "Enter first number: " num1
+read -p "Enter second number: " num2
+
+# Compare numbers
+if [ $num1 -gt $num2 ]; then
+    # Perform division
+    result=$((num1 / num2))
+    echo "Division result: $result"
+else
+    # Perform multiplication
+    result=$((num1 * num2))
+    echo "Multiplication result: $result"
+fi
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>-gt</code> → Greater than comparison</li>
+<li><code>$(( ))</code> → Arithmetic evaluation</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 4: File Checking Script</h2>
+
+<pre><code>#!/bin/bash
+
+# Check if argument provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 filename"
+    exit 1
+fi
+
+file=$1
+
+# Check if file exists
+if [ -f "$file" ]; then
+    echo "File exists"
+
+    # Check if file is empty
+    if [ ! -s "$file" ]; then
+        echo "File is empty. Writing environment variables."
+        env > "$file"
+    else
+        echo "File is not empty"
+    fi
+
+else
+    echo "File does not exist. Creating file."
+    touch "$file"
+
+    # Write environment variables
+    env > "$file"
+    echo "Environment variables written to file"
+fi
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>$#</code> → Number of arguments</li>
+<li><code>-f</code> → File exists</li>
+<li><code>-s</code> → File is not empty</li>
+<li><code>env</code> → Outputs environment variables</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 5: Menu-Driven Arithmetic Script</h2>
+
+<pre><code>#!/bin/bash
+
+while true
+do
+    echo "====== MENU ======"
+    echo "1. Addition"
+    echo "2. Subtraction"
+    echo "3. Multiplication"
+    echo "4. Division"
+    echo "5. Exit"
+
+    # User choice
+    read -p "Enter choice: " choice
+
+    # Exit condition
+    if [ "$choice" -eq 5 ]; then
+        echo "Goodbye!"
+        break
+    fi
+
+    # Get numbers
+    read -p "Enter first number: " num1
+    read -p "Enter second number: " num2
+
+    case $choice in
+        1)
+            echo "Result: $((num1 + num2))"
+            ;;
+        2)
+            echo "Result: $((num1 - num2))"
+            ;;
+        3)
+            echo "Result: $((num1 * num2))"
+            ;;
+        4)
+            if [ $num2 -ne 0 ]; then
+                echo "Result: $((num1 / num2))"
+            else
+                echo "Error: Division by zero"
+            fi
+            ;;
+        *)
+            echo "Invalid choice!"
+            ;;
+    esac
+done
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>while true</code> → Infinite loop</li>
+<li><code>case</code> → Handles menu selection</li>
+<li><code>break</code> → Exits loop</li>
+<li>Handles invalid input and division by zero</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>ps + grep + kill</b> is a very common exam combo</li>
+<li><b>$(( ))</b> is used for arithmetic</li>
+<li><b>if / else</b> and <b>case</b> are key control structures</li>
+<li>Always validate user input</li>
+<li>Always comment scripts for marks</li>
+<li>Check file conditions using:
+<ul>
+<li><code>-f</code> → exists</li>
+<li><code>-s</code> → not empty</li>
+</ul>
+</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 11 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 11</h1>
+<h2>Python Dictionary and Strings</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab11
+cd lab11
+idle3</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Student Dictionary with Shelve</h2>
+
+<pre><code>import shelve
+
+db = shelve.open("students_db")
+
+while True:
+    user_input = input("Enter Student ID (or 'k' to list, 'stop' to exit): ")
+
+    if user_input.lower() == "stop":
+        print("Program terminated.")
+        break
+
+    if user_input == "k":
+        print("All Student IDs:")
+        for key in db:
+            print(key)
+        continue
+
+    student_id = user_input
+
+    if student_id in db:
+        print("Student:", student_id, db[student_id])
+    else:
+        name = input("Student not found. Enter name to add: ")
+        db[student_id] = name
+        print("Student added.")
+
+db.close()
+</code></pre>
+
+<p><b>Key Concepts:</b></p>
+<ul>
+<li><code>shelve</code> → persistent dictionary storage</li>
+<li><code>db[key]</code> → store/retrieve values</li>
+<li><code>db.keys()</code> → list all IDs</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 2: Character Counting Function</h2>
+
+<pre><code>def count_chars(text):
+    result = {
+        "a": text.count("a"),
+        "i": text.count("i"),
+        "space": text.count(" ")
+    }
+    return result
+
+while True:
+    text = input("Enter text (q to quit): ")
+
+    if text == "q":
+        print("Program ended.")
+        break
+
+    output = count_chars(text)
+    print(output)
+</code></pre>
+
+<p><b>Key Concept:</b> <code>count()</code> counts occurrences in string.</p>
+
+<!-- ========================= -->
+<h2>Exercise 3: String Type Checker</h2>
+
+<pre><code>while True:
+    text = input("Enter input (end to stop): ")
+
+    if text == "end":
+        print("Goodbye!")
+        break
+
+    if text.isdigit():
+        print("This is a number")
+    elif text.isalpha():
+        print("This is a string")
+
+        if text.islower():
+            print("Uppercase:", text.upper())
+        elif text.isupper():
+            print("Lowercase:", text.lower())
+    else:
+        print("Combination of letters and numbers")
+</code></pre>
+
+<p><b>Key Functions:</b></p>
+<ul>
+<li><code>isdigit()</code> → numbers</li>
+<li><code>isalpha()</code> → letters only</li>
+<li><code>islower()/isupper()</code> → case detection</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 4: Theatre Management System (Dictionary + Shelve)</h2>
+
+<pre><code>import shelve
+
+db = shelve.open("theatre_db")
+
+# Function to add members
+def add_member():
+    name = input("Enter member name: ")
+    role = input("Enter role: ")
+    db[name] = role
+    print("Member added.")
+
+# Function to display table
+def display_table():
+    try:
+        left = int(input("Enter left width: "))
+        right = int(input("Enter right width: "))
+    except ValueError:
+        print("Invalid input!")
+        return
+
+    print("\nFormatted Table:")
+    print("-" * (left + right))
+
+    for key in db:
+        print(f"{key:<{left}} {db[key]:<{right}}")
+
+# Menu system
+while True:
+    print("\n1. Add Member")
+    print("2. Display Members")
+    print("3. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        add_member()
+    elif choice == "2":
+        display_table()
+    elif choice == "3":
+        print("Exiting program...")
+        break
+    else:
+        print("Invalid option")
+
+db.close()
+</code></pre>
+
+<p><b>Key Concepts:</b></p>
+<ul>
+<li><code>shelve</code> → persistent storage</li>
+<li><code>f-string formatting</code> → table layout</li>
+<li><code>try/except</code> → input validation</li>
+<li>Menu-driven programs are exam favourites</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>Dictionary:</b> key-value structure (very important)</li>
+<li><b>shelve module:</b> used for persistent dictionaries</li>
+<li><b>String methods:</b> count(), isalpha(), isdigit()</li>
+<li><b>Case conversion:</b> upper(), lower()</li>
+<li><b>Menu systems:</b> usually use while loop</li>
+<li>Always validate user input</li>
+<li>Use formatting for clean output tables</li>
+</ul>
+
+</body>
+</html>

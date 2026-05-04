@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 07 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 07</h1>
+<h2>Python Control Flow & Functions</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab07
+cd lab07
+idle3</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Arithmetic Calculator</h2>
+
+<pre><code># Get user inputs
+num1 = int(input("Enter a number: "))
+num2 = int(input("Enter another number: "))
+operator = input("Enter one of +, -, *, /: ")
+
+# Perform operation using if
+if operator == "+":
+    result = num1 + num2
+elif operator == "-":
+    result = num1 - num2
+elif operator == "*":
+    result = num1 * num2
+elif operator == "/":
+    result = num1 / num2
+else:
+    print("Invalid operator")
+    exit()
+
+# Output result
+print(f"{num1} {operator} {num2} = {result}")
+</code></pre>
+
+<p><b>Key Concept:</b> Use <code>if/elif</code> for decision making.</p>
+
+<!-- ========================= -->
+<h2>Exercise 2: Equation Evaluation</h2>
+
+<pre><code># Input values
+x = int(input("Enter x: "))
+y = int(input("Enter y: "))
+
+# Calculate expression
+result = (x + y) * (x + y)
+
+# Conditional output
+if result < 60:
+    print(f"Output: ({x} + {y})^2 = {result} is less than 60")
+elif 60 <= result <= 70:
+    print("Output: 65")
+else:
+    print(f"Output: ({x} + {y})^2 = {result}")
+</code></pre>
+
+<p><b>Key Concept:</b> Multiple conditions using ranges.</p>
+
+<!-- ========================= -->
+<h2>Exercise 3: Continuous Sum Script</h2>
+
+<pre><code>equal_count = 0
+
+while True:
+    num1 = int(input("Enter first number: "))
+    num2 = int(input("Enter second number: "))
+
+    if num1 == num2:
+        print("Bingo equal numbers")
+        equal_count += 1
+
+        if equal_count == 2:
+            print("It was fun calculating for you")
+            break
+    else:
+        print("Sum:", num1 + num2)
+</code></pre>
+
+<p><b>Key Concept:</b> Loop control + counters.</p>
+
+<!-- ========================= -->
+<h2>Exercise 4: Random Number Generator Function</h2>
+
+<pre><code>import random
+
+# Function to generate 6 random numbers
+def generate_numbers(start, end):
+    for _ in range(6):
+        print(random.randint(start, end), end=" ")
+    print()
+
+# User input
+times = int(input("How many times to run: "))
+start = int(input("Enter start of range: "))
+end = int(input("Enter end of range: "))
+
+# Loop execution
+for i in range(times):
+    print(f"Run {i+1}: ", end="")
+    generate_numbers(start, end)
+</code></pre>
+
+<p><b>Key Concept:</b></p>
+<ul>
+<li><code>random.randint()</code> → Generates random number</li>
+<li>Functions reuse code</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 5: Guess Length Game</h2>
+
+<pre><code>import random
+
+# Function to guess length
+def guess_length(text):
+    actual_length = len(text)
+
+    for attempt in range(1, 13):
+        guess = random.randint(1, 20)
+        print(f"Attempt {attempt}: Guess = {guess}")
+
+        if guess == actual_length:
+            print(f"Success! Length is {actual_length}")
+            return
+
+    print("Failed to guess the length in 12 attempts")
+
+# User input
+text = input("Enter a word/sentence (max 20 chars): ")
+
+# Validate length
+if len(text) > 20:
+    print("Input too long")
+else:
+    guess_length(text)
+</code></pre>
+
+<p><b>Key Concept:</b></p>
+<ul>
+<li><code>len()</code> → Gets length of string</li>
+<li>Loop with limited attempts</li>
+<li>Function handles logic</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>if / elif / else</b> → essential for control flow</li>
+<li><b>Loops:</b> while and for both important</li>
+<li><b>Functions:</b> must know definition + parameters</li>
+<li><b>random module</b> often tested</li>
+<li><b>f-strings</b> → modern string formatting</li>
+<li><b>Break</b> → exits loops</li>
+<li>Always validate user input</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 1 Notes</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2, h3 { color: #2c3e50; }
+        code { background: #f4f4f4; padding: 3px 6px; display: block; margin: 5px 0; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 1</h1>
+
+<h2>Exercise 1: Linux Commands & File Management</h2>
+
+<h3>1. Create a directory</h3>
+<pre><code>mkdir SystemsScripting</code></pre>
+<p><b>Explanation:</b> Creates a new folder called "SystemsScripting".</p>
+
+<h3>2. Change into the directory</h3>
+<pre><code>cd SystemsScripting</code></pre>
+
+<h3>3. Create another folder and enter it</h3>
+<pre><code>mkdir lab01
+cd lab01</code></pre>
+
+<h3>4. Create two files</h3>
+<pre><code>touch file1.txt file2.txt</code></pre>
+<p><b>Explanation:</b> <code>touch</code> creates empty files.</p>
+
+<h3>5. Create two folders</h3>
+<pre><code>mkdir folder1 folder2</code></pre>
+
+<h3>6. List directory contents</h3>
+<pre><code>ls</code></pre>
+
+<h3>7. Create an alias to copy folders</h3>
+<pre><code>alias copydir='cp -r'</code></pre>
+<p><b>Explanation:</b> <code>-r</code> allows recursive copying of directories.</p>
+
+<h3>8. List all aliases</h3>
+<pre><code>alias</code></pre>
+
+<h3>9. Use alias to copy a folder</h3>
+<pre><code>copydir folder1 folder1_copy</code></pre>
+
+<h3>10. Verify copy</h3>
+<pre><code>ls</code></pre>
+
+<h3>11. Remove alias</h3>
+<pre><code>unalias copydir</code></pre>
+
+<h3>12. Verify alias removal</h3>
+<pre><code>alias</code></pre>
+
+<h3>13. Rename a file</h3>
+<pre><code>mv file1.txt renamed_file.txt</code></pre>
+
+<h3>14. Move second file into a folder</h3>
+<pre><code>mv file2.txt folder1/</code></pre>
+
+<h3>15. Install and use gedit</h3>
+<pre><code>sudo apt-get install gedit
+gedit filename.sh</code></pre>
+
+<hr>
+
+<h2>Exercise 2: First Bash Script</h2>
+
+<h3>Script: welcome.sh</h3>
+<pre><code>#!/bin/bash
+
+# Display welcome message with username
+echo "Welcome $USER to System Scripting Lab 1"
+
+# List contents of home directory
+echo "Listing Home Directory:"
+ls ~
+</code></pre>
+
+<h3>Make script executable</h3>
+<pre><code>chmod +x welcome.sh</code></pre>
+
+<h3>Run script</h3>
+<pre><code>./welcome.sh</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>#!/bin/bash</code> → Shebang, defines interpreter</li>
+<li><code>$USER</code> → Environment variable for current user</li>
+<li><code>ls ~</code> → Lists home directory</li>
+</ul>
+
+<hr>
+
+<h2>Exercise 3: File & Folder Automation Script</h2>
+
+<h3>Script: manage_files.sh</h3>
+<pre><code>#!/bin/bash
+
+# Create two folders
+mkdir folderA folderB
+
+# Create five files in folderA
+touch folderA/file1.txt folderA/file2.txt folderA/file3.txt folderA/file4.txt folderA/file5.txt
+
+# Move three files to folderB
+mv folderA/file1.txt folderA/file2.txt folderA/file3.txt folderB/
+
+# Display contents of both folders
+echo "Contents of folderA:"
+ls folderA
+
+echo "Contents of folderB:"
+ls folderB
+</code></pre>
+
+<hr>
+
+<h2>Exercise 4: Globbing & Permissions</h2>
+
+<h3>Script: globbing_script.sh</h3>
+<pre><code>#!/bin/bash
+
+# Create folders
+mkdir folder1 folder2
+
+# Create five files
+touch folder1/file{1..5}.txt
+
+# Move all files using globbing (* matches all files)
+mv folder1/* folder2/
+
+# Rename folder2
+mv folder2 newFolder
+
+# Change into renamed folder
+cd newFolder
+
+# Grant read and execute permission to group
+chmod g+rx *
+
+# List detailed file info
+ls -l
+</code></pre>
+
+<p><b>Key Concepts:</b></p>
+<ul>
+<li><code>*</code> → Matches all files (globbing)</li>
+<li><code>chmod g+rx</code> → Adds read & execute permissions to group</li>
+<li><code>ls -l</code> → Shows permissions, ownership, size</li>
+</ul>
+
+<hr>
+
+<h2>Exercise 5: Interactive Script (Overwrite Confirmation)</h2>
+
+<h3>Script: move_file.sh</h3>
+<pre><code>#!/bin/bash
+
+# Ask user for file name
+read -p "Enter file name: " filename
+
+# Ask user for destination
+read -p "Enter destination folder path: " destination
+
+# Check if file exists in destination
+if [ -f "$destination/$filename" ]; then
+    echo "File already exists in destination."
+
+    # Ask for confirmation
+    read -p "Overwrite? (y/n): " choice
+
+    if [ "$choice" == "y" ]; then
+        mv -f "$filename" "$destination/"
+        echo "File overwritten successfully."
+    else
+        echo "Operation cancelled."
+    fi
+else
+    mv "$filename" "$destination/"
+    echo "File moved successfully."
+fi
+</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>read -p</code> → Takes user input</li>
+<li><code>-f</code> → Checks if file exists</li>
+<li><code>mv -f</code> → Forces overwrite</li>
+<li><code>if statements</code> → Controls logic flow</li>
+</ul>
+
+<hr>
+
+<h2>Key Exam Tips</h2>
+<ul>
+<li>Always include <b>comments</b> in scripts</li>
+<li>Use <code>chmod +x</code> before running scripts</li>
+<li>Understand difference between <code>mv</code>, <code>cp</code>, and <code>rm</code></li>
+<li>Remember globbing symbols: <code>*</code>, <code>?</code>, <code>[]</code></li>
+<li>Check permissions using <code>ls -l</code></li>
+<li>Aliases are temporary unless saved in <code>.bashrc</code></li>
+</ul>
+
+</body>
+</html>

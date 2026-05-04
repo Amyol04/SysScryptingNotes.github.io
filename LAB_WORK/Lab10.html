@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 10 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 10</h1>
+<h2>Organising Files & File I/O</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab10
+cd lab10
+idle3</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Create Folder and Files</h2>
+
+<pre><code>import os
+import shutil
+
+# Delete project folder if exists
+if os.path.exists("project"):
+    shutil.rmtree("project")
+
+# Create folder
+os.mkdir("project")
+
+# Create files
+files = ["file1.txt", "file2.txt", "file3.txt"]
+for f in files:
+    open(f"project/{f}", "w").close()
+
+# Write content to one file
+with open("project/file1.txt", "w") as f:
+    f.write("This is sentence one.\n")
+    f.write("This is sentence two.\n")
+    f.write("This is sentence three.\n")
+
+# Print directories
+print("Current Directory:", os.getcwd())
+print("Project Folder Contents:", os.listdir("project"))
+</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 2: Folder Copy Function</h2>
+
+<pre><code>import os
+import shutil
+
+def copy_folder(source, destination):
+    # Check source exists
+    if not os.path.exists(source):
+        print("Source folder does not exist")
+        return
+
+    # Remove destination if exists
+    if os.path.exists(destination):
+        shutil.rmtree(destination)
+
+    # Copy folder
+    shutil.copytree(source, destination)
+
+    print("Copy successful!")
+
+    # Output file names and sizes
+    for file in os.listdir(destination):
+        path = os.path.join(destination, file)
+        if os.path.isfile(path):
+            print(file, os.path.getsize(path), "bytes")
+
+# User input
+src = input("Enter source folder: ")
+dest = input("Enter destination folder: ")
+
+copy_folder(src, dest)
+</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 3: List .txt Files in Directory Tree</h2>
+
+<pre><code>import os
+
+def find_txt_files(folder):
+    if not os.path.exists(folder):
+        print("Folder does not exist")
+        return
+
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            if file.endswith(".txt"):
+                print(os.path.join(root, file))
+
+# User input
+folder = input("Enter folder path: ")
+find_txt_files(folder)
+</code></pre>
+
+<p><b>Key Concept:</b> <code>os.walk()</code> traverses directory tree.</p>
+
+<!-- ========================= -->
+<h2>Exercise 4: Zip and Backup Folder</h2>
+
+<pre><code>import os
+import shutil
+import zipfile
+
+def archive_folder(folder):
+    if not os.path.exists(folder):
+        print("Folder does not exist")
+        return
+
+    # Create zip file
+    zip_name = folder + ".zip"
+    shutil.make_archive(folder, 'zip', folder)
+
+    # Store directory in home
+    home = os.path.expanduser("~")
+    store = os.path.join(home, "store")
+
+    # Delete and recreate store folder
+    if os.path.exists(store):
+        shutil.rmtree(store)
+    os.mkdir(store)
+
+    # Create 4 backup copies
+    for i in range(1, 5):
+        shutil.copy(zip_name, os.path.join(store, f"backup{i}.zip"))
+
+    print("Backups created")
+
+    # Verify by listing contents of one archive
+    os.chdir(store)
+    with zipfile.ZipFile("backup1.zip", 'r') as z:
+        print("Contents of backup1.zip:")
+        z.printdir()
+
+# User input
+folder = input("Enter folder to archive: ")
+archive_folder(folder)
+</code></pre>
+
+<p><b>Key Concepts:</b></p>
+<ul>
+<li><code>shutil.make_archive()</code> → Create zip file</li>
+<li><code>zipfile</code> → Read archive contents</li>
+<li><code>os.walk()</code> → Traverse directories</li>
+<li><code>shutil.copy()</code> → Copy files</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>shutil</b> → file/folder operations (copy, delete)</li>
+<li><b>os module</b> → navigation & checks</li>
+<li><b>zipfile</b> → archive handling</li>
+<li><b>os.walk()</b> → recursive directory search</li>
+<li>Always check existence before operations</li>
+<li>Use <code>os.path.join()</code> for safe paths</li>
+<li>Remember to handle deletion before copying</li>
+</ul>
+
+</body>
+</html>

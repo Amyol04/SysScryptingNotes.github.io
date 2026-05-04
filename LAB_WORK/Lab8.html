@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 08 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 08</h1>
+<h2>Python Functions, Lists and Tuples</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab08
+cd lab08
+idle3</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Sum of List</h2>
+
+<pre><code># Function to sum list
+def sum_list(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total
+
+# Sample list
+my_list = [2, 4, 6, 7, 5]
+
+# Output result
+print("Sum:", sum_list(my_list))
+</code></pre>
+
+<p><b>Expected Output:</b> 24</p>
+
+<!-- ========================= -->
+<h2>Exercise 2: Unique Elements</h2>
+
+<pre><code># Function to get unique elements
+def unique_list(lst):
+    return list(set(lst))
+
+# Input list
+input_list = [2, 2, 3, 4, 3, 5, 5, 6, 7, 3, 7]
+
+# Get unique list
+result = unique_list(input_list)
+
+# Output
+print("Original List:", input_list)
+print("Unique List:", result)
+</code></pre>
+
+<p><b>Note:</b> set removes duplicates.</p>
+
+<!-- ========================= -->
+<h2>Exercise 3: Delete Two Items</h2>
+
+<pre><code># Function to remove two items
+def remove_items(lst):
+    new_list = lst.copy()
+    if len(new_list) >= 2:
+        new_list.pop()
+        new_list.pop()
+    return new_list
+
+# Create list interactively
+user_list = input("Enter numbers separated by space: ").split()
+user_list = [int(x) for x in user_list]
+
+# Process list
+modified_list = remove_items(user_list)
+
+# Output
+print("Original List:", user_list)
+print("Modified List:", modified_list)
+</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 4: Odd or Even Checker</h2>
+
+<pre><code>def check_even_odd(num):
+    if num % 2 == 0:
+        print(f"The value {num} is an even number")
+    else:
+        print(f"The value {num} is an odd number")
+
+while True:
+    try:
+        num = int(input("Enter a number (111 to exit): "))
+
+        if num == 111:
+            print("Goodbye!")
+            break
+
+        check_even_odd(num)
+
+    except ValueError:
+        print("Invalid input! Please enter a number.")
+</code></pre>
+
+<p><b>Key Concept:</b> Exception handling using try/except.</p>
+
+<!-- ========================= -->
+<h2>Exercise 5: Maximum of Three Numbers</h2>
+
+<pre><code>def find_max(a, b, c):
+    return max(a, b, c)
+
+while True:
+    try:
+        a = int(input("Enter first number (555 to exit): "))
+
+        if a == 555:
+            print("Program terminated.")
+            break
+
+        b = int(input("Enter second number: "))
+        c = int(input("Enter third number: "))
+
+        print("Max value is:", find_max(a, b, c))
+
+    except ValueError:
+        print("Invalid input! Please enter numbers only.")
+</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 6: Tuple Manipulation</h2>
+
+<pre><code># Function to modify tuple
+def modify_tuple(tpl, value):
+    # Convert tuple to list (tuples are immutable)
+    temp = list(tpl)
+
+    # Insert value at index 4
+    temp.insert(4, value)
+
+    # Append first 3 elements
+    temp.extend(tpl[:3])
+
+    return tuple(temp)
+
+# Sample tuple
+original_tuple = (2, 4, 6, 7, 5, 4, 9, 8)
+
+# Modify tuple
+new_tuple = modify_tuple(original_tuple, "var")
+
+# Output
+print("Original Tuple:", original_tuple)
+print("Modified Tuple:", new_tuple)
+</code></pre>
+
+<p><b>Expected Output:</b></p>
+<pre><code>(2, 4, 6, 7, var, 5, 4, 9, 8, 2, 4, 6)</code></pre>
+
+<p><b>Key Concept:</b></p>
+<ul>
+<li>Tuples are immutable → must convert to list</li>
+<li><code>insert()</code> and <code>extend()</code> used for modification</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>Lists vs Tuples:</b>
+<ul>
+<li>List → mutable</li>
+<li>Tuple → immutable</li>
+</ul>
+</li>
+<li><b>set()</b> → removes duplicates</li>
+<li><b>try/except</b> → handles invalid input</li>
+<li><b>max()</b> → built-in function</li>
+<li><b>Functions:</b> must return values</li>
+<li><b>List methods:</b> pop(), insert(), extend()</li>
+<li><b>Tuple slicing:</b> tpl[:3]</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 09 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 09</h1>
+<h2>Python File I/O</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab09
+cd lab09
+idle3</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Directory Operations</h2>
+
+<pre><code>import os
+
+# Print current working directory
+print("Current Directory:", os.getcwd())
+
+# Check if directory exists
+path = "/usr/local/"
+
+if os.path.exists(path):
+    os.chdir(path)
+    print("Changed to:", os.getcwd())
+
+    # List contents
+    for item in os.listdir():
+        print(item)
+else:
+    print("Directory does not exist")
+</code></pre>
+
+<p><b>Key Functions:</b></p>
+<ul>
+<li><code>os.getcwd()</code> → Current directory</li>
+<li><code>os.chdir()</code> → Change directory</li>
+<li><code>os.listdir()</code> → List files</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 2: Create Folders and Files</h2>
+
+<pre><code>import os
+
+# Create main folder
+os.makedirs("share/bit", exist_ok=True)
+os.makedirs("share/coin", exist_ok=True)
+os.makedirs("share/crypto", exist_ok=True)
+
+# Create files in coin folder
+files = ["file1.txt", "file2.txt", "file3.txt"]
+
+for f in files:
+    open(f"share/coin/{f}", "w").close()
+
+# List files
+for file in os.listdir("share/coin"):
+    print(file)
+</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 3: Directory Size Calculator</h2>
+
+<pre><code>import os
+
+while True:
+    directory = input("Enter directory (or 'stop' to exit): ")
+
+    if directory == "stop":
+        break
+
+    # Convert to absolute path
+    path = os.path.abspath(directory)
+
+    if not os.path.exists(path):
+        print("Directory does not exist")
+        continue
+
+    total_size = 0
+
+    for item in os.listdir(path):
+        full_path = os.path.join(path, item)
+
+        if os.path.isfile(full_path):
+            total_size += os.path.getsize(full_path)
+
+    print("Total size:", total_size, "bytes")
+</code></pre>
+
+<p><b>Key Concepts:</b></p>
+<ul>
+<li><code>os.path.abspath()</code> → Absolute path</li>
+<li><code>os.path.isfile()</code> → Checks regular files</li>
+<li><code>os.path.getsize()</code> → File size</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 4: Write Directory Files to Text File</h2>
+
+<pre><code>import os
+
+path = "/etc/default/"
+
+# Check existence
+if os.path.exists(path):
+
+    # Delete file if exists
+    if os.path.exists("fileNames.txt"):
+        os.remove("fileNames.txt")
+
+    # Write filenames
+    with open("fileNames.txt", "w") as f:
+        for file in os.listdir(path):
+            f.write(file + "\n")
+
+    # Read and display
+    with open("fileNames.txt", "r") as f:
+        for line in f:
+            print(line.strip())
+else:
+    print("Directory not found")
+</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 5: File Write and Read with Functions</h2>
+
+<pre><code># Function to create and write file
+def write_file(filename):
+    # Delete if exists
+    import os
+    if os.path.exists(filename):
+        os.remove(filename)
+
+    # Write content
+    with open(filename, "w") as f:
+        f.write("When I think about my programming abilities\n")
+        f.write("It seems that I am very foreign to this sort of thing\n")
+        f.write("I see that the problem lies on my lack of concentration and desire for the Internet\n")
+        f.write("How can I redeem myself from this dilemma\n")
+        f.write("I should course myself and sit up for the future\n")
+        f.write("Hard work results to success.\n")
+
+    print("File written successfully")
+
+# Function to read specific lines
+def read_file(filename):
+    with open(filename, "r") as f:
+        for line in f:
+            if line.startswith(("When", "I", "Hard")):
+                print(line.strip())
+
+# Interactive usage
+filename = input("Enter filename: ")
+
+if filename != "end":
+    write_file(filename)
+    read_file(filename)
+</code></pre>
+
+<p><b>Key Concepts:</b></p>
+<ul>
+<li><code>open()</code> → File handling</li>
+<li><code>with</code> → Auto closes file</li>
+<li><code>startswith()</code> → Filters lines</li>
+<li><code>os.remove()</code> → Deletes file</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>os module</b> is essential for file/directory tasks</li>
+<li><b>File modes:</b>
+<ul>
+<li>"r" → read</li>
+<li>"w" → write (overwrite)</li>
+<li>"a" → append</li>
+</ul>
+</li>
+<li><b>with open()</b> is preferred method</li>
+<li><b>Absolute paths</b> often required in exams</li>
+<li>Always check file/directory existence</li>
+<li>Use <code>startswith()</code> for filtering lines</li>
+</ul>
+
+</body>
+</html>

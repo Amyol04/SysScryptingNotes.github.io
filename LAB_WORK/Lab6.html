@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Scripting Lab 06 Notes</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>System Scripting Lab 06</h1>
+<h2>Python Basics</h2>
+
+<!-- ========================= -->
+<h2>Setup</h2>
+<pre><code>mkdir lab06
+cd lab06
+idle3</code></pre>
+
+<p><b>Python Interactive Examples:</b></p>
+<pre><code>5 + 6     # 11
+4 * 2     # 8
+6 / 4     # 1.5</code></pre>
+
+<!-- ========================= -->
+<h2>Variables</h2>
+
+<pre><code>x = 10
+print(x)
+
+# Print with text
+print("Value of x is:", x)</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 1: Variables</h2>
+
+<h3>1. Valid Variable Names</h3>
+<ul>
+<li>❌ 8number (cannot start with number)</li>
+<li>✅ b</li>
+<li>✅ counter</li>
+<li>❌ #tango (invalid character)</li>
+<li>❌ "bed" (string, not variable name)</li>
+<li>✅ NUMBER</li>
+<li>✅ Android_phone1</li>
+<li>❌ this variable (spaces not allowed)</li>
+</ul>
+
+<h3>2. Data Types</h3>
+<ul>
+<li>a = False → <b>bool</b></li>
+<li>b = 3.7 → <b>float</b></li>
+<li>c = 'Alex' → <b>str</b></li>
+<li>d = 7 → <b>int</b></li>
+<li>e = 'True' → <b>str</b></li>
+<li>g = '17' → <b>str</b></li>
+<li>i = '3.14159' → <b>str</b></li>
+<li>j = "---------add---------" → <b>str</b></li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 2: Boolean Operators</h2>
+
+<h3>Given:</h3>
+<pre><code>a = False
+b = True
+c = False</code></pre>
+
+<h3>Results:</h3>
+<ul>
+<li>b and c → False</li>
+<li>b or c → True</li>
+<li>not a and b → True</li>
+<li>(a and b) or not c or (not b and not (a or c)) → True</li>
+<li>not ((not b or not a) and c) or a → True</li>
+</ul>
+
+<h3>Comparisons (x = 3)</h3>
+<ul>
+<li>1 &lt; x → True</li>
+<li>x &gt;= 4 → False</li>
+<li>x == 3 → True</li>
+<li>x == 3.0 → True</li>
+<li>"Hello" == "Hello" → True</li>
+<li>4.0/2.0 == 2 → True</li>
+<li>3 &lt; 7 and 4 &gt; 5 → False</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Exercise 3: User Input Script</h2>
+
+<pre><code># Request user name
+name = input("Enter your name: ")
+
+# Request year of birth
+year = int(input("Enter your year of birth: "))
+
+# Calculate age (assuming current year = 2026)
+age = 2026 - year
+
+# Output message
+print("Welcome", name)
+print("You are", age, "years old")
+</code></pre>
+
+<!-- ========================= -->
+<h2>Exercise 4: Formatted Output</h2>
+
+<pre><code>print("Twinkle, twinkle, little star,")
+print("How I wonder what you are!")
+print("Up above the world so high,")
+print("Like a diamond in the sky.")
+print("Twinkle, twinkle, little star,")
+print("How I wonder what you are")</code></pre>
+
+<p><b>Note:</b> Repeat the block again to match required output.</p>
+
+<!-- ========================= -->
+<h2>Exercise 5: Single Print Multi-line Output</h2>
+
+<pre><code># Get user input
+name = input("Enter your name: ")
+age = input("Enter your age: ")
+address = input("Enter your address: ")
+
+# Print in one statement
+print("Name:", name, "\nAge:", age, "\nAddress:", address)</code></pre>
+
+<p><b>Explanation:</b></p>
+<ul>
+<li><code>\n</code> → New line character</li>
+<li>Single print used for multiple lines</li>
+</ul>
+
+<!-- ========================= -->
+<h2>Key Exam Tips</h2>
+
+<ul>
+<li><b>Variable rules:</b> No spaces, no starting with numbers</li>
+<li><b>Types:</b> int, float, str, bool</li>
+<li><b>input()</b> always returns string → use <code>int()</code> if needed</li>
+<li><b>Boolean logic</b> is commonly tested</li>
+<li><b>== vs =</b> → comparison vs assignment</li>
+<li><b>\n</b> is essential for formatting</li>
+<li>Indentation matters in Python</li>
+</ul>
+
+</body>
+</html>
