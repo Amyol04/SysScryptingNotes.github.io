@@ -1,54 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>MAIN PAGE</title>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="/CSS/style.css">
 </head>
 <body>
 
-<h1> SYS SCRYPTING NOTES</h1>
-<p1>fully updated</p1>
+<header class="topbar">
+    <h1>SYS SCRIPTING NOTES</h1>
+    <p>Fully updated</p>
+</header>
 
-<H1>LECTURES</H1>
-<h3>Bash lectueres</h3>
-<p><a href="LECTURES/Lecture01_Introduction.html">Lecture 1</a> > intro </p>
-<p><a href="LECTURES/Lecture02_Bash_Basics-new.html">Lecture 2</a>> bash basics </p>
-<p><a href="LECTURES/Lecture03_Environment_Commands.html">Lecture 3</a> > enviroment commands </p>
-<p><a href="LECTURES/Lecture04_Processes_and_Services.html">Lecture 4</a> > process and services </p>
-<p><a href="LECTURES/Lecture05_Operators_Control.html">Lecture 5</a> > operator controls </p>
-<p><a href="LECTURES/Lecture06_Array_Search_Loop.html">Lecture 6</a> > array search loop </p>
-<p><a href="LECTURES/Lecture07_String_Manipulation_Functions.html">Lecture 7</a> > string manipluation </p>
-<p><a href="LECTURES/Lecture08_Awk.html">Lecture 8</a> > awk</p>
-<p><a href="LECTURES/Lecture09_Sed.html">Lecture 9</a> > seed </p>
+<main class="dashboard">
 
-<h3> Python lectures </h3>
-<p><a href="LECTURES/Lecture10_Python_Basics.html">Lecture 10</a> > python basics </p>
-<p><a href="LECTURES/Lecture11_Python_Flow_Control.html">Lecture 11</a> > flow controll </p>
-<p><a href="LECTURES/Lecture12_Python_Functions.html">Lecture 12</a> > funtions </p>
-<p><a href="LECTURES/Lecture13_Python_List.html">Lecture 13</a> > list </p>
-<p><a href="LECTURES/Lecture14_Python_Reading_and_Writing_File.html">Lecture 14</a> > reading and writing to files </p>
-<p><a href="LECTURES/Lecture15_Python_Organising_Files.html">Lecture 15</a> > organizing files </p>
-<p><a href="LECTURES/Lecture16_Python_Dictionary_and_String_Manipulations(1).html">Lecture 16</a> > python dictonary</p>
-<p><a href="LECTURES/Lecture17_Python_More_Strings_Clipboard.html">Lecture 17</a> > more strings clipboard </p>
-<p><a href="LECTURES/Lecture18_Bash_Revision.html">Lecture 18</a> > bash revision </p>
+    <!-- LECTURES WRAPPER -->
+    <section class="card wide">
+        <h2>📚 Lectures</h2>
 
+        <div class="lecture-grid">
 
-<H1>LABS</H1>
-<p><a href="LAB_WORK/Lab1.html">Lab one</a></p>
-<p><a href="LAB_WORK/Lab2.html">Lab two</a></p>
-<p><a href="LAB_WORK/Lab3.html">Lab three</a></p>
-<p><a href="LAB_WORK/Lab4.html">Lab four</a></p>
-<p><a href="LAB_WORK/Lab5.html">Lab five</a></p>
-<p><a href="LAB_WORK/Lab6.html">Lab six</a></p>
-<p><a href="LAB_WORK/Lab7.html">Lab seven</a></p>
-<p><a href="LAB_WORK/Lab8.html">Lab 8</a></p>
-<p><a href="LAB_WORK/Lab9.html">Lab nine</a></p>
-<p><a href="LAB_WORK/Lab10.html">Lab ten</a></p>
-<p><a href="LAB_WORK/Lab11.html">Lab 11</a></p>
+            <!-- Bash box -->
+            <div class="subcard">
+                <h3>Bash Lectures</h3>
+                <ul>
+                    <li><a href="LECTURES/Lecture01_Introduction.html">Lecture 1</a> <span>intro</span></li>
+                    <li><a href="LECTURES/Lecture02_Bash_Basics-new.html">Lecture 2</a> <span>bash basics</span></li>
+                    <li><a href="LECTURES/Lecture03_Environment_Commands.html">Lecture 3</a> <span>environment</span></li>
+                    <li><a href="LECTURES/Lecture04_Processes_and_Services.html">Lecture 4</a> <span>processes</span></li>
+                    <li><a href="LECTURES/Lecture05_Operators_Control.html">Lecture 5</a> <span>operators</span></li>
+                    <li><a href="LECTURES/Lecture06_Array_Search_Loop.html">Lecture 6</a> <span>loops</span></li>
+                    <li><a href="LECTURES/Lecture07_String_Manipulation_Functions.html">Lecture 7</a> <span>strings</span></li>
+                    <li><a href="LECTURES/Lecture08_Awk.html">Lecture 8</a> <span>awk</span></li>
+                    <li><a href="LECTURES/Lecture09_Sed.html">Lecture 9</a> <span>sed</span></li>
+                </ul>
+            </div>
 
-<H1>ONLINE CHEAT SHEETS </H1>
-<p><a href="https://quickref.me/python.html">python</a></p>
-<p><a href="https://quickref.me/bash.html">bash</a></p>
+            <!-- Python box -->
+            <div class="subcard">
+                <h3>Python Lectures</h3>
+                <ul>
+                    <li><a href="LECTURES/Lecture10_Python_Basics.html">Lecture 10</a> <span>basics</span></li>
+                    <li><a href="LECTURES/Lecture11_Python_Flow_Control.html">Lecture 11</a> <span>flow</span></li>
+                    <li><a href="LECTURES/Lecture12_Python_Functions.html">Lecture 12</a> <span>functions</span></li>
+                    <li><a href="LECTURES/Lecture13_Python_List.html">Lecture 13</a> <span>lists</span></li>
+                    <li><a href="LECTURES/Lecture14_Python_Reading_and_Writing_File.html">Lecture 14</a> <span>files</span></li>
+                    <li><a href="LECTURES/Lecture15_Python_Organising_Files.html">Lecture 15</a> <span>organising</span></li>
+                    <li><a href="LECTURES/Lecture16_Python_Dictionary_and_String_Manipulations(1).html">Lecture 16</a> <span>dictionaries</span></li>
+                    <li><a href="LECTURES/Lecture17_Python_More_Strings_Clipboard.html">Lecture 17</a> <span>clipboard</span></li>
+                    <li><a href="LECTURES/Lecture18_Bash_Revision.html">Lecture 18</a> <span>revision</span></li>
+                </ul>
+            </div>
 
+        </div>
+    </section>
+
+    <!-- LABS -->
+    <section class="card">
+        <h2>🧪 Labs</h2>
+
+        <div class="lab-grid">
+            <a href="LAB_WORK/Lab1.html">Lab 1</a>
+            <a href="LAB_WORK/Lab2.html">Lab 2</a>
+            <a href="LAB_WORK/Lab3.html">Lab 3</a>
+            <a href="LAB_WORK/Lab4.html">Lab 4</a>
+            <a href="LAB_WORK/Lab5.html">Lab 5</a>
+            <a href="LAB_WORK/Lab6.html">Lab 6</a>
+            <a href="LAB_WORK/Lab7.html">Lab 7</a>
+            <a href="LAB_WORK/Lab8.html">Lab 8</a>
+            <a href="LAB_WORK/Lab9.html">Lab 9</a>
+            <a href="LAB_WORK/Lab10.html">Lab 10</a>
+            <a href="LAB_WORK/Lab11.html">Lab 11</a>
+        </div>
+    </section>
+
+    <!-- CHEATS -->
+    <section class="card">
+        <h2>⚡ Cheat Sheets</h2>
+        <div class="grid">
+            <a href="https://quickref.me/python.html">Python</a>
+            <a href="https://quickref.me/bash.html">Bash</a>
+        </div>
+    </section>
+
+</main>
 
 </body>
 </html>
