@@ -95,3 +95,11 @@ a {
 a:hover {
     text-decoration: underline;
 }
+.cat-img {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    margin: auto;
+}
