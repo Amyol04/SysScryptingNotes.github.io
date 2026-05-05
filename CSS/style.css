@@ -33,6 +33,8 @@ body {
 }
 
 /* 2 lecture boxes */
+
+/* lecture boxes */
 .lecture-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -45,6 +47,14 @@ body {
     padding: 15px;
     border-radius: 10px;
     border: 1px solid #334155;
+}
+
+/* CENTERED REVISION CARD */
+.subcard.center {
+    grid-column: 1 / -1;   /* take full row */
+    max-width: 400px;      /* control width */
+    margin: 0 auto;        /* center horizontally */
+    text-align: center;
 }
 
 /* lists */
