@@ -104,57 +104,7 @@
                 
         <H3> Python </h3> 
             <p> How to use!
-                run idle , turn on line number 
-                 save as py 
-                type python (file name) 
 
-
-                def capitalize_word(sentence, position):
-    words = sentence.split()
-
-    # Check that position is valid
-    if position < 0 or position >= len(words):
-        return "Error: Position out of range."
-
-    # Capitalize the word at the given position
-    words[position] = words[position].upper()
-
-    return " ".join(words)
-
-
-while True:
-    user_input = input("Enter a sentence (or type 'finish the work' to quit): ")
-
-    # Check for termination condition
-    if user_input == "finish the work":
-        print("Program finished. Goodbye!")
-        break
-
-    # Validate sentence (must be lowercase and more than 2 words)
-    if not user_input.islower():
-        print("Error: Sentence must be in lowercase.")
-        continue
-
-    words = user_input.split()
-    if len(words) <= 2:
-        print("Error: Sentence must contain more than two words.")
-        continue
-
-    # Get position input
-    try:
-        position = int(input("Enter the word position (starting from 0): "))
-    except ValueError:
-        print("Error: Please enter a valid number.")
-        continue
-
-    # Ensure position is within range
-    if position >= len(words):
-        print("Error: Position must be within the number of words in the sentence.")
-        continue
-
-    # Call function and display result
-    result = capitalize_word(user_input, position)
-    print("Result:", result)
             </p> 
          
         </div>
